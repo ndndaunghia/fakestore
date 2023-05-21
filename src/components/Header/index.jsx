@@ -1,22 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Category from "../Category";
 import Cart from "../Cart/index";
 import { useNavigate } from "react-router-dom";
+import "./style.css";
 import HomeProducts from "../HomeProducts";
 export default function Header() {
+  const accessToken = localStorage.getItem("at");
   const [showCart, setShowCart] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(accessToken ? true : false);
   const navigate = useNavigate();
-  const handleCartClick = (e) => {
-    e.preventDefault();
-    setShowCart(!showCart);
-    navigate('/cart');
+  const logOut = () => {
+    localStorage.removeItem("at");
+    localStorage.removeItem("uid");
+    localStorage.setItem("isLoggedIn", JSON.stringify(false));
+    setIsLoggedIn(false);
   };
+  const handleCartClick = (e) => {
+    if(!isLoggedIn)
+      navigate('/sign-in');
+    else
+      navigate('/cart');
+  };
+
+  useEffect(() => {
+    const isLoggedIn = localStorage.getItem("isLoggedIn")
+    setIsLoggedIn(isLoggedIn === 'true');
+  }, [])
 
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <div className="container-fluid">
+        <div className="container-fluid px-4">
           <Link className="navbar-brand" href="#" to="/">
             Aihgn
           </Link>
@@ -44,9 +59,9 @@ export default function Header() {
                 </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">
+                <Link className="nav-link" to='/about'>
                   About
-                </a>
+                </Link>
               </li>
               <li className="nav-item dropdown">
                 <a
@@ -57,7 +72,7 @@ export default function Header() {
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
-                  Clothes
+                  Category
                 </a>
                 <Category />
               </li>
@@ -69,16 +84,58 @@ export default function Header() {
                 placeholder="Search"
                 aria-label="Search"
               />
-              <button className="btn btn-outline-success" type="submit">
-                Search
-              </button>
-              <button className="btn">
-                <span className="material-symbols-outlined">account_circle</span>
-              </button>
-              <button className="btn" onClick={handleCartClick}>
-                <span className="material-symbols-outlined">shopping_cart</span>
-              </button>
             </form>
+            <div className="dropdown d-flex justify-content-center">
+              <button className="btn header-button" data-bs-toggle="dropdown">
+                <span className="material-symbols-outlined">
+                  account_circle
+                </span>
+              </button>
+
+              {isLoggedIn ? (
+                <ul className="dropdown-menu" style={{ minWidth: "100px" }}>
+                  <li>
+                    <Link className="dropdown-item" to="/reset-password">
+                      Profile
+                    </Link>
+                  </li>
+                  {/* <li>
+                    <Link className="dropdown-item" to="/change-password">
+                      Change password
+                    </Link>
+                  </li> */}
+                  <li>
+                    <Link
+                      className="dropdown-item"
+                      to="/"
+                      onClick={logOut}
+                    >
+                      Logout
+                    </Link>
+                  </li>
+                </ul>
+              ) : (
+                <ul className="dropdown-menu" style={{ minWidth: "100px" }}>
+                  <li>
+                    <Link
+                      className="dropdown-item"
+                      to="/sign-in"
+                    >
+                      Sign in
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="dropdown-item" to="/sign-up">
+                      Sign up
+                    </Link>
+                  </li>
+                </ul>
+              )}
+            </div>
+
+            <button className="btn header-button" onClick={handleCartClick}>
+              <span className="material-symbols-outlined">shopping_cart</span>
+            </button>
           </div>
         </div>
       </nav>

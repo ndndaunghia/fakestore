@@ -9,6 +9,10 @@ import ProductDetail from "./components/ProductDetail";
 import Category from "./components/Category";
 import CategoryProduct from "./pages/CategoryProduct";
 import Cart from "./components/Cart";
+import SignIn from "./Auth/SignIn";
+import SignUp from "./Auth/SignUp";
+import ResetPassword from "./Auth/Reset_Password";
+import About from "./pages/About";
 
 const router = createBrowserRouter([
   {
@@ -52,6 +56,23 @@ const router = createBrowserRouter([
         <Cart />
       </div>
     },
+    {
+      path: "/sign-in",
+      element:
+        <SignIn/>
+    },
+    {
+      path: '/sign-up',
+      element: <SignUp/>
+    },
+    {
+      path: '/reset-password',
+      element: (
+        <>
+          <ResetPassword/>
+        </>
+      ),
+    }
   
 ]);
 

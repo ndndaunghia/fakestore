@@ -1,0 +1,7 @@
+.header-button:focus,
+.header-button:active,
+.header-button:hover {
+  outline: none !important;
+  box-shadow: none !;
+  border-color: transparent !important;
+}

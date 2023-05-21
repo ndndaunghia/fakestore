@@ -1,8 +1,10 @@
-import { logDOM } from "@testing-library/react";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useMemo } from "react";
 import styled from "styled-components";
-import Swal from "sweetalert2";
+import 'firebase/compat/database';
+import { getDatabase, ref, onValue, off, set } from "firebase/database";
+import { firebaseAppPromise } from "../../Firebase";
+
 const ButtonC = styled.button`
   width: 40px;
   height: 30px;
@@ -18,71 +20,86 @@ const ListProduct = styled.h2`
 `;
 
 export default function Cart() {
-  const [cart, setCart] = React.useState(
-    JSON.parse(localStorage.getItem("cart"))
-  );
-  const totalPrice = useMemo(
-    () => cart.reduce((acc, obj) => acc + obj.price * obj.quantity, 0).toFixed(2),
-    [cart]
-  );
+  const [cart, setCart] = useState([]);
+    const userId = localStorage.getItem("uid");
+  const totalPrice = useMemo(() => {
+    if (cart) {
+      return cart.reduce((acc, obj) => acc + obj.price * obj.quantity, 0).toFixed(2);
+    }
+    return 0;
+  }, [cart]);
 
   const handleIncrease = (index) => {
     const newCart = cart.map((item, i) => {
       if (i === index) {
+        
         return { ...item, quantity: item.quantity + 1 };
       }
       return item;
     });
     setCart(newCart);
-    localStorage.setItem("cart", JSON.stringify(newCart));
+    updateCartInDatabase(newCart);
   };
+  
 
   const handleDecrease = (index) => {
     const newCart = cart.map((item, i) => {
-      if (i == index) {
+      if (i === index) {
         return { ...item, quantity: Math.max(item.quantity - 1, 1) };
       }
       return item;
     });
     setCart(newCart);
-    localStorage.setItem("cart", JSON.stringify(newCart));
+    updateCartInDatabase(newCart);
   };
 
   const handleDelete = (index) => {
-    cart.splice(index, 1);
-    setCart([...cart]);
-    localStorage.setItem("cart", JSON.stringify(cart));
-    Swal.fire({
-      position: "top-end",
-      icon: "success",
-      title: "Delete product successfully!",
-      showConfirmButton: false,
-      timer: 1000,
-      customClass: {
-        popup: "swal",
-      },
-    });
+    const newCart = cart.filter((_, i) => i !== index);
+    setCart(newCart);
+    updateCartInDatabase(newCart);
+  };
+
+  const updateCartInDatabase = (cartItems) => {
+    const cartRef = ref(getDatabase(), `${userId}/cart`);
+    set(cartRef, cartItems);
   };
 
   useEffect(() => {
-    setCart(JSON.parse(localStorage.getItem("cart")));
+    const fetchCart = async () => {
+      try {
+        await firebaseAppPromise; 
+        const cartRef = ref(getDatabase(), `${userId}/cart`);
+        onValue(cartRef, (snapshot) => {
+          const newCart = snapshot.val();
+          setCart(newCart ? Object.values(newCart) : []);
+        });
+        return () => {
+          off(cartRef);
+        };
+      } catch (error) {
+        console.error("Error initializing Firebase App:", error);
+      }
+    };
+
+    fetchCart();
   }, []);
 
-  if (cart.length === 0) {
+  const handleBuy = () => {
+   
+
+  }
+
+  if (!cart || cart.length === 0) {
     return (
       <div className="container text-center mt-5">
-        <h2>
-          There isn't nothing in your cart !
-        </h2>
-        <span class="material-symbols-outlined">sentiment_dissatisfied</span>
+        <h2>There is nothing in your cart!</h2>
+        <span className="material-symbols-outlined">sentiment_dissatisfied</span>
       </div>
     );
   } else {
     return (
       <div className="container">
-        <ListProduct className="text-center">
-          List Product ({cart.length})
-        </ListProduct>
+        <ListProduct className="text-center">List Product ({cart.length})</ListProduct>
         <table className="table ">
           <thead>
             <tr>
@@ -99,11 +116,7 @@ export default function Cart() {
                 <tr key={cartIndex}>
                   <td>{cartIndex + 1}</td>
                   <td>
-                    <img
-                      src={cartItem.image}
-                      alt=""
-                      style={{ width: "8rem" }}
-                    />
+                    <img src={cartItem.image} alt="" style={{ width: "8rem" }} />
                   </td>
                   <td>{cartItem.title}</td>
                   <td>{cartItem.price}</td>
@@ -125,13 +138,10 @@ export default function Cart() {
                         -
                       </ButtonC>
                       <ButtonC
-                        style={{
-                          marginLeft: "10px",
-                          backgroundColor: "transparent",
-                        }}
+                        style={{ marginLeft: "10px", backgroundColor: "transparent" }}
                         onClick={() => handleDelete(cartIndex)}
                       >
-                        <span class="material-symbols-outlined">delete</span>
+                        <span className="material-symbols-outlined">delete</span>
                       </ButtonC>
                     </div>
                   </td>
@@ -145,7 +155,9 @@ export default function Cart() {
             <h3>Total </h3>{" "}
           </span>
           <p>$ {totalPrice}</p>
-          <button className="btn btn-primary" style={{margin: '20px 0', borderRadius: '5px'}}>Buy Now</button>
+          <button className="btn btn-primary" style={{ margin: "20px 0", borderRadius: "5px" }}>
+            Buy Now
+          </button>
         </div>
       </div>
     );

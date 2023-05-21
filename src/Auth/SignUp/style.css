@@ -1,0 +1,29 @@
+.signUp-form {
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+    background-color: #FEDEFF;
+    height: 450px;
+    border-radius: 20px;
+    color: #0A4D68;
+    width: 350px;
+}
+
+.signUp-form input {
+    background-color: #AEE2FF;
+}
+
+.signUp-form input:focus{
+    background-color: #AEE2FF;
+    box-shadow: none;
+}
+
+.signUp-btn {
+    width: 100%;
+    border-radius: 20px;
+    background-color: #8675A9;
+    border: none;
+    outline: none;
+}
+
+.signUp-btn:hover {
+    background-color: #9384D1 !important;
+}

@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import CardItem from "../CardItem";
-import { Link } from "react-router-dom";
-import Swal from "sweetalert2";
+import { Link, useNavigate } from "react-router-dom";
+import addToCart from "../HandleAddToCart";
+
 export default function HomeProducts() {
+  const accessToken = localStorage.getItem("uid");
+  const [isLoggedIn, setIsLoggedIn] = useState(accessToken ? true : false);
   const [products, setProducts] = useState([]);
-  const [cart, setCart] = useState([]);
-  const [cartCount, setCartCount] = useState(0);
-  // const param
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -18,39 +19,15 @@ export default function HomeProducts() {
       .catch((error) => {
         console.log(error);
       });
-
-    const cartData = JSON.parse(localStorage.getItem("cart")) || [];
-    setCart(cartData);
-    setCartCount(cartData.length);
   }, []);
 
-
   const handleAddToCart = (product) => {
-    const cardItem = cart.find((item) => item.id === product.id);
-    if (cardItem) cardItem.quantity++;
-    else {
-      const newCartItem = {
-        id: product.id,
-        image: product.image,
-        title: product.title,
-        price: product.price,
-        quantity: 1,
-      };
-      cart.push(newCartItem);
+    if(isLoggedIn){
+      addToCart(product)
     }
-    Swal.fire({
-      position: "top-end",
-      icon: "success",
-      title: "Add product successfully!",
-      showConfirmButton: false,
-      timer: 1000,
-      customClass: {
-        popup: "swal",
-      },
-    });
-    localStorage.setItem("cart", JSON.stringify(cart));
-    setCart(cart);
-    setCartCount(cartCount + 1);
+    else{
+      navigate('/sign-in');
+    }
   };
 
   return (
