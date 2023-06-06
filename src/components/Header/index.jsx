@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Category from "../Category";
-import Cart from "../Cart/index";
+// import Cart from "../Cart/index";
 import { useNavigate } from "react-router-dom";
 import "./style.css";
-import HomeProducts from "../HomeProducts";
+// import HomeProducts from "../HomeProducts";
 export default function Header() {
   const accessToken = localStorage.getItem("at");
-  const [showCart, setShowCart] = useState(false);
+  // const [showCart, setShowCart] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(accessToken ? true : false);
   const navigate = useNavigate();
   const logOut = () => {
@@ -95,8 +95,8 @@ export default function Header() {
               {isLoggedIn ? (
                 <ul className="dropdown-menu" style={{ minWidth: "100px" }}>
                   <li>
-                    <Link className="dropdown-item" to="/reset-password">
-                      Profile
+                    <Link className="dropdown-item" to="/change-password">
+                      Newpassword
                     </Link>
                   </li>
                   {/* <li>

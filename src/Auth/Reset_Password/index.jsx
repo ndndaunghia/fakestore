@@ -15,9 +15,9 @@ export default function ResetPassword() {
         Swal.fire({
           position: "top-end",
           icon: "success",
-          title: "Please check your email to reset password!",
+          title: "Please check your email to reset and new password must be correct format!",
           showConfirmButton: false,
-          timer: 1000,
+          timer: 5000,
           customClass: {
             popup: "swal",
           },
