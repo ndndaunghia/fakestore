@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import app from "../../Firebase";
+import Swal from "sweetalert2";
 import "./style.css";
 import { Link } from "react-router-dom";
 
 export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [passwordError, setPasswordError] = useState("");
   const [confirmPw, setConfirmPw] = useState("");
   const onSubmit = (e) => {
     e.preventDefault();
@@ -18,16 +18,34 @@ export default function SignUp() {
           // Signed in
           const user = userCredential.user;
           console.log(user);
-          alert("Successfully sign up an account");
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Sign up an account successfully!",
+            showConfirmButton: false,
+            timer: 1000,
+            customClass: {
+              popup: "swal",
+            },
+          });
           // ...
         })
         .catch((error) => {
           const errorCode = error.code;
           //   const errorMessage = error.message;
-          alert(errorCode);
         });
     } else {
-      alert("Check your password");
+      // alert("Check your password");
+      Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: "Please check your password!",
+        showConfirmButton: false,
+        timer: 1000,
+        customClass: {
+          popup: "swal",
+        },
+      });
     }
   };
   return (
