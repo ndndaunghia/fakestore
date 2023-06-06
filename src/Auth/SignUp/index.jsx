@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
   const [confirmPw, setConfirmPw] = useState("");
   const onSubmit = (e) => {
     e.preventDefault();
@@ -44,6 +45,7 @@ export default function SignUp() {
             className="form-control"
             id="email"
             required
+            // pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
@@ -56,6 +58,7 @@ export default function SignUp() {
             className="form-control"
             id="password"
             required
+            pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$"
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
@@ -68,6 +71,7 @@ export default function SignUp() {
             className="form-control"
             id="confirmPassword"
             required
+            pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$"
             onChange={(e) => setConfirmPw(e.target.value)}
           />
         </div>
