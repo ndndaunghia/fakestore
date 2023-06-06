@@ -34,9 +34,11 @@ export default function CardItem(props) {
       <div className="card-body">
         <h5 className="card-title">{props.title.substring(0, 12)}</h5>
         <p className="card-text">{props.price} $</p>
-        <Link className="btn btn-primary" onClick={handleClick}>
-          Add to cart
-        </Link>
+        <button className="button" >
+          <Link onClick={handleClick} style={{textDecoration: 'none'}}>
+            Add to cart
+          </Link>
+        </button>
       </div>
     </div>
   );

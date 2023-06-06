@@ -13,7 +13,6 @@ import SignIn from "./Auth/SignIn";
 import SignUp from "./Auth/SignUp";
 import ResetPassword from "./Auth/Reset_Password";
 import About from "./pages/About";
-import ChangePassword from "./Auth/Change_Password";
 
 const router = createBrowserRouter([
   {
@@ -71,14 +70,6 @@ const router = createBrowserRouter([
       element: (
         <>
           <ResetPassword/>
-        </>
-      ),
-    },
-    {
-      path: '/change-password',
-      element: (
-        <>
-          <ChangePassword/>
         </>
       ),
     }
