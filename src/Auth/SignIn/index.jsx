@@ -24,10 +24,30 @@ const SignIn = () => {
         localStorage.setItem("isLoggedIn", true);
         localStorage.setItem("uid", getAuth().currentUser?.uid);
         navigate("/");
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Sign in successfully!",
+          showConfirmButton: false,
+          timer: 1000,
+          customClass: {
+            popup: "swal",
+          },
+        });
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
+        Swal.fire({
+          position: "top-end",
+          icon: "error",
+          title: "Please check your account!",
+          showConfirmButton: false,
+          timer: 1000,
+          customClass: {
+            popup: "swal",
+          },
+        });
       });
   };
 
@@ -62,6 +82,7 @@ const SignIn = () => {
             className="form-control"
             id="password"
             required
+            pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$"
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>

@@ -5,8 +5,9 @@ import { Link, useNavigate } from "react-router-dom";
 import addToCart from "../HandleAddToCart";
 
 export default function HomeProducts() {
-  const accessToken = localStorage.getItem("uid");
-  const [isLoggedIn, setIsLoggedIn] = useState(accessToken ? true : false);
+  // const accessToken = localStorage.getItem("uid");
+  // const [isLoggedIn, setIsLoggedIn] = useState(accessToken ? true : false);
+  const isLoggedIn = localStorage.getItem('uid') ? true : false;
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
 
@@ -22,12 +23,8 @@ export default function HomeProducts() {
   }, []);
 
   const handleAddToCart = (product) => {
-    if(isLoggedIn){
-      addToCart(product)
-    }
-    else{
-      navigate('/sign-in');
-    }
+    // console.log(typeof(isLoggedIn));
+   addToCart(product)
   };
 
   return (

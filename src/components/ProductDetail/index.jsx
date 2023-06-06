@@ -3,6 +3,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import "firebase/compat/database";
 import addToCart from "../HandleAddToCart";
+import Swal from "sweetalert2";
+
 export default function ProductDetail() {
   const [productDetail, setProductDetail] = useState([]);
   const { id } = useParams();
@@ -18,7 +20,21 @@ export default function ProductDetail() {
   }, [id]);
 
   const handleAddToCart = (productDetail) => {
-    addToCart(productDetail);
+    const isLoggedIn = localStorage.getItem("at") ? true : false;
+    if (!isLoggedIn) {
+      Swal.fire({
+        position: "top-end",
+        icon: "info",
+        title: "Please login before adding products to cart!",
+        showConfirmButton: false,
+        timer: 1000,
+        customClass: {
+          popup: "swal",
+        },
+      });
+    } else {
+      addToCart(productDetail);
+    }
   };
 
   return (

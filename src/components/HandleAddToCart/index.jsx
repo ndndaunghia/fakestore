@@ -1,6 +1,7 @@
 import Swal from "sweetalert2";
 import { get, ref, set } from "firebase/database";
 import { database } from "../../Firebase";
+import { useNavigate } from "react-router-dom";
 
 const addToCart = (product) => {
   const userId = localStorage.getItem("uid");
