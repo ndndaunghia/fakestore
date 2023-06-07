@@ -84,10 +84,6 @@ export default function Cart() {
     fetchCart();
   }, []);
 
-  useEffect(() => {
-    // Lưu giá trị cart.length vào local storage
-    localStorage.setItem("cartLength", cart.length);
-  }, [cart]);
 
   const handleBuy = () => {
    
