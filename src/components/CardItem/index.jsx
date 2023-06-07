@@ -6,7 +6,8 @@ import Swal from "sweetalert2";
 export default function CardItem(props) {
   const isLoggedIn = localStorage.getItem('at') ? true : false;
   const handleClick = (e) => {
-    e.stopPropagation();
+    // e.stopPropagation();
+    e.preventDefault();
     if(!isLoggedIn){
       Swal.fire({
         position: "top-end",
@@ -34,10 +35,10 @@ export default function CardItem(props) {
       <div className="card-body">
         <h5 className="card-title">{props.title.substring(0, 12)}</h5>
         <p className="card-text">{props.price} $</p>
-        <button className="button" >
-          <Link onClick={handleClick} style={{textDecoration: 'none'}}>
+        <button className="button" type="button" onClick={handleClick} >
+          {/* <Link onClick={handleClick} style={{textDecoration: 'none'}}> */}
             Add to cart
-          </Link>
+          {/* </Link> */}
         </button>
       </div>
     </div>

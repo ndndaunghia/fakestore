@@ -29,7 +29,7 @@ export default function Header() {
   }, [])
 
   return (
-    <div>
+    <div className="position-fixed" style={{width: '100vw', zIndex : '2', boxShadow: '0 3px 5px rgba(57, 63, 72, 0.3)'}}>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid px-4">
           <Link className="navbar-brand" href="#" to="/">

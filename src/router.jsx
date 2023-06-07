@@ -12,6 +12,7 @@ import Cart from "./components/Cart";
 import SignIn from "./Auth/SignIn";
 import SignUp from "./Auth/SignUp";
 import ResetPassword from "./Auth/Reset_Password";
+import ChangePassword from "./Auth/Change_Password";
 import About from "./pages/About";
 
 const router = createBrowserRouter([
@@ -70,6 +71,14 @@ const router = createBrowserRouter([
       element: (
         <>
           <ResetPassword/>
+        </>
+      ),
+    },
+    {
+      path: '/change-password',
+      element: (
+        <>
+          <ChangePassword/>
         </>
       ),
     }

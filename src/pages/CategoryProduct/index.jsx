@@ -22,7 +22,7 @@ export default function CategoryProduct() {
   addToCart(product);
   };
   return (
-    <div className="container">
+    <div className="container" style={{paddingTop: '60px'}}>
       <div
         className="card-title mt-3"
         style={{

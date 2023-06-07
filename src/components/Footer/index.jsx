@@ -4,6 +4,8 @@ import "./styles.css";
 
 const FooterItem = styled.footer`
   background-color: black;
+  position: sticky;
+  top: 100% !important;
 `;
 
 const RowItem = styled.div`

@@ -15,7 +15,7 @@ export default function Banner() {
     // <div className="container">
     //     <BannerImg></BannerImg>
     // </div>
-    <div className="container">
+    <div className="container" style={{paddingTop: '61px'}}>
       <div
         id="carouselExampleInterval"
         className="carousel slide"

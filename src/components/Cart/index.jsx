@@ -21,7 +21,7 @@ const ListProduct = styled.h2`
 
 export default function Cart() {
   const [cart, setCart] = useState([]);
-    const userId = localStorage.getItem("uid");
+  const userId = localStorage.getItem("uid");
   const totalPrice = useMemo(() => {
     if (cart) {
       return cart.reduce((acc, obj) => acc + obj.price * obj.quantity, 0).toFixed(2);
@@ -84,6 +84,11 @@ export default function Cart() {
     fetchCart();
   }, []);
 
+  useEffect(() => {
+    // Lưu giá trị cart.length vào local storage
+    localStorage.setItem("cartLength", cart.length);
+  }, [cart]);
+
   const handleBuy = () => {
    
 
@@ -91,14 +96,14 @@ export default function Cart() {
 
   if (!cart || cart.length === 0) {
     return (
-      <div className="container text-center mt-5">
+      <div className="container text-center" style={{paddingTop: '100px'}}>
         <h2>There is nothing in your cart!</h2>
         <span className="material-symbols-outlined">sentiment_dissatisfied</span>
       </div>
     );
   } else {
     return (
-      <div className="container">
+      <div className="container" style={{paddingTop: '100px'}}>
         <ListProduct className="text-center">List Product ({cart.length})</ListProduct>
         <table className="table ">
           <thead>
@@ -116,7 +121,7 @@ export default function Cart() {
                 <tr key={cartIndex}>
                   <td>{cartIndex + 1}</td>
                   <td>
-                    <img src={cartItem.image} alt="" style={{ width: "8rem" }} />
+                    <img src={cartItem.image} alt="" style={{ width: "8rem", height: '10rem' }} />
                   </td>
                   <td>{cartItem.title}</td>
                   <td>{cartItem.price}</td>
