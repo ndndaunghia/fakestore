@@ -3,12 +3,13 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import app from "../../Firebase";
 import Swal from "sweetalert2";
 import "./style.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPw, setConfirmPw] = useState("");
+  const navigate = useNavigate();
   const onSubmit = (e) => {
     e.preventDefault();
     const auth = getAuth(app);
@@ -28,7 +29,7 @@ export default function SignUp() {
               popup: "swal",
             },
           });
-          // ...
+          navigate('/sign-in')
         })
         .catch((error) => {
           const errorCode = error.code;
